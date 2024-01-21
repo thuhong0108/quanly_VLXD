@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     try {
         let orders = await Order.find();
         const users = await getAllUsers();
+        //lấy tất cả user
         orders = orders.map(order => {
             const user = users.find(user => user._id == order.userId);
             order = { ...order._doc, username: user.username }

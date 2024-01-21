@@ -2,7 +2,9 @@ import jwt from 'jsonwebtoken';
 import Authentication from '../models/Authentication.js';
 
 export const verifyPermission = async (req, res, next) => {
+    //lấy thông tin token từ header
     const token = req.header('Authorization');
+    //kiểm tra token có tồn tại hay không
     if (!token) {
         return res.status(401).json({
             success: false,

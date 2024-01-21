@@ -2,6 +2,7 @@ import express from "express";
 import Category from "../models/Category.js";
 import Product from "../models/Product.js";
 import { getCategoryById } from "../services/Category.js";
+import { verifyPermission } from '../middleware/verifyPermission.js';
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Thêm danh mục sản phẩm
-router.post('/create', async (req, res) => {
+router.post('/create',verifyPermission, async (req, res) => {
     try {
         const newCategory = new Category(req.body);
         const savedCategory = await newCategory.save();
@@ -49,7 +50,7 @@ router.post('/create', async (req, res) => {
 });
 
 // Sửa sản phẩm theo id
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id',verifyPermission, async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -64,7 +65,7 @@ router.put('/edit/:id', async (req, res) => {
 });
 
 // Xóa danh mục sản phẩm
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id',verifyPermission, async (req, res) => {
     try {
         await Category.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Xóa danh mục sản phẩm thành công' });

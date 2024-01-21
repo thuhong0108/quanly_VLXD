@@ -103,7 +103,7 @@ function ProductManagement() {
                                                     <img className='productMan__image' alt='' src={item.image} />
                                                 </TableCell>
                                                 <TableCell>{item.name}</TableCell>
-                                                <TableCell>{item.category.name}</TableCell>
+                                                <TableCell>{item.category?.name}</TableCell>
                                                 <TableCell>{formatPrice(item.price)}</TableCell>
                                                 <TableCell>
                                                     <div className='productMan__action'>

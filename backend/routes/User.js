@@ -1,10 +1,11 @@
 import express from "express";
 import User from '../models/User.js';
+import { verifyPermission } from '../middleware/verifyPermission.js';
 
 const router = express.Router();
 
 // Lấy tất cả người dùng
-router.get('/', async (req, res) => {
+router.get('/',verifyPermission, async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).json({ 
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
 })
 
 // Lấy người dùng theo id
-router.get('/:id', async (req, res) => {
+router.get('/:id',verifyPermission, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         res.status(200).json({ 
@@ -32,7 +33,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Sửa người dùng theo id
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id',verifyPermission, async (req, res) => {
     const id = req.params.id;
     const { Username, Email } = req.body;
 
@@ -53,7 +54,7 @@ router.put('/edit/:id', async (req, res) => {
 });
 
 // Xóa người dùng
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id',verifyPermission, async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Xóa người dùng thành công' });
